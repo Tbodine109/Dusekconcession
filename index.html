@@ -3,47 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dusek Concessions Kansas State FAIR 2025</title>
+  <title>Dusek Concessions · Kansas State FAIR 2025</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+    body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
     .text-neon-green { color: #39FF14; }
     .text-neon-red { color: #FF3131; }
     .border-neon-green { border-color: #39FF14; }
     .border-neon-red { border-color: #FF3131; }
     .glow-green { text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14; }
     .glow-red { text-shadow: 0 0 5px #FF3131, 0 0 10px #FF3131; }
-
-    /* Custom scrollbar styles */
     .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: #4b5563; border-radius: 10px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #6b7280; border-radius: 10px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #334155; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #64748b; }
   </style>
 </head>
 
-<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
+<body class="text-white min-h-screen flex flex-col items-center justify-center p-4">
 
   <!-- Loading Spinner -->
   <div id="loading-spinner" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 bg-opacity-70 z-50 hidden">
-    <svg class="animate-spin -ml-1 mr-3 h-10 w-10 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <svg class="animate-spin h-10 w-10 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
     </svg>
-    <div id="loading-text" class="mt-4 text-lg font-bold text-gray-400">Loading...</div>
+    <div id="loading-text" class="mt-4 text-lg font-bold text-gray-300">Loading...</div>
   </div>
 
   <!-- Firebase Config Modal -->
   <div id="config-modal" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 bg-opacity-90 z-50 hidden p-4">
     <div class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-xl text-center border-2 border-gray-700">
       <h2 class="text-3xl font-bold text-red-400 mb-4">Configuration Missing</h2>
-      <p class="text-gray-400 mb-6">The app needs a Firebase configuration to connect to the database. Please paste your Firebase configuration JSON below.</p>
-      <textarea id="config-input" class="w-full h-40 p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 border border-gray-600 resize-none" placeholder='Paste your firebase config JSON here. Example: {"apiKey": "...", "authDomain": "..."}'></textarea>
-      <button id="save-config-btn" class="mt-4 px-6 py-3 bg-cyan-600 text-white font-bold rounded-full shadow-lg hover:bg-cyan-700 transition-colors duration-300 transform hover:scale-105">
+      <p class="text-gray-400 mb-4">Paste your Firebase config JSON below, then Save.</p>
+      <textarea id="config-input" class="w-full h-44 p-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 border border-gray-600 resize-none" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'></textarea>
+      <button id="save-config-btn" class="mt-4 px-6 py-3 bg-cyan-600 text-white font-bold rounded-full shadow-lg hover:bg-cyan-700 transition">
         Save and Restart
       </button>
       <p id="config-status" class="mt-4 text-sm text-gray-400"></p>
@@ -52,7 +50,9 @@
 
   <!-- Main App Container -->
   <div id="app-container" class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-4xl text-center border-2 border-gray-700 hidden">
-    <h1 class="text-4xl sm:text-5xl font-extrabold text-cyan-400 mb-2 tracking-wide">Dusek Concessions<br>Kansas State FAIR 2025</h1>
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-cyan-400 mb-2 tracking-wide">
+      Dusek Concessions<br/>Kansas State FAIR 2025
+    </h1>
     <p class="text-gray-400 mb-6 font-mono text-sm">User ID: <span id="userIdDisplay" class="break-all">Loading...</span></p>
 
     <!-- Input Fields -->
@@ -62,7 +62,7 @@
     </div>
 
     <select id="locationSelect" class="w-full p-3 rounded-xl bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 border border-gray-600 mb-6">
-      <!-- Options will be populated by JS -->
+      <!-- Options populated by JS -->
     </select>
 
     <div id="statusDiv" class="text-lg font-semibold p-4 rounded-xl mb-6 border-2 border-gray-700 shadow-inner">
@@ -71,10 +71,10 @@
 
     <!-- Clock In/Out Buttons -->
     <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-      <button id="clockInBtn" class="w-full sm:w-1/2 px-6 py-4 bg-green-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-green-700 transition-colors duration-300 transform hover:scale-105" disabled>
+      <button id="clockInBtn" class="w-full sm:w-1/2 px-6 py-4 bg-green-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-green-700 transition" disabled>
         Clock In
       </button>
-      <button id="clockOutBtn" class="w-full sm:w-1/2 px-6 py-4 bg-red-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-red-700 transition-colors duration-300 transform hover:scale-105" disabled>
+      <button id="clockOutBtn" class="w-full sm:w-1/2 px-6 py-4 bg-red-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-red-700 transition" disabled>
         Clock Out
       </button>
     </div>
@@ -89,18 +89,19 @@
     <!-- Admin View Toggle -->
     <div class="mt-8 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-2">
       <input type="password" id="adminPassword" placeholder="Admin Password" class="p-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 border border-gray-600">
-      <button id="accessAdminViewBtn" class="px-6 py-2 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300">
+      <button id="accessAdminViewBtn" class="px-6 py-2 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition">
         Access Admin View
       </button>
     </div>
+
+    <!-- Inline error display (for Firebase codes/messages) -->
+    <div id="inlineError" class="mt-6 hidden text-sm rounded-lg border border-red-700 bg-red-900/40 p-3 text-red-200 text-left"></div>
   </div>
 
   <!-- Admin View Section -->
   <div id="adminView" class="bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-4xl text-center mt-8 hidden border-2 border-gray-700">
     <h2 class="text-3xl font-bold text-cyan-400 mb-4">Admin Dashboard</h2>
-    <div id="adminTablesContainer" class="space-y-8">
-      <!-- Individual employee time tables will be populated here -->
-    </div>
+    <div id="adminTablesContainer" class="space-y-8"></div>
   </div>
 
   <!-- Edit Modal -->
@@ -134,26 +135,21 @@
         </div>
       </div>
       <div class="mt-6 flex justify-end space-x-4">
-        <button id="saveEditBtn" class="px-6 py-2 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition-colors duration-300">Save Changes</button>
-        <button id="cancelEditBtn" class="px-6 py-2 bg-gray-600 text-white rounded-full shadow-md hover:bg-gray-700 transition-colors duration-300">Cancel</button>
+        <button id="saveEditBtn" class="px-6 py-2 bg-green-600 text-white rounded-full shadow-md hover:bg-green-700 transition">Save Changes</button>
+        <button id="cancelEditBtn" class="px-6 py-2 bg-gray-600 text-white rounded-full shadow-md hover:bg-gray-700 transition">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs (pin to a known-good version) -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import {
-      getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import {
-      getFirestore, doc, addDoc, onSnapshot, collection, query, where, updateDoc, getDocs, setLogLevel
-    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.2/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.2/firebase-auth.js";
+    import { getFirestore, doc, addDoc, onSnapshot, collection, query, where, updateDoc, getDocs, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.2/firebase-firestore.js";
 
-    // Enable verbose Firestore logs for debugging in dev tools
     setLogLevel('debug');
 
-    // ---- ENV / Host-injected globals (optional) ----
+    // ---- Host-injected globals (optional) ----
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
     const firebaseConfigFromEnv = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
     const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
@@ -188,21 +184,15 @@
     const editTimestampInput = document.getElementById('editTimestamp');
     const saveEditBtn = document.getElementById('saveEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const inlineError = document.getElementById('inlineError');
 
     // ---- Firebase State ----
-    let db;
-    let auth;
-    let userId = null;
-    let isAuthReady = false;
-    let unsubscribeUserHistory = null;
-    let unsubscribeAdminView = null;
-    let allEvents = [];
-    let timerId = null;
+    let db, auth, userId = null, isAuthReady = false;
+    let unsubscribeUserHistory = null, unsubscribeAdminView = null;
+    let allEvents = [], timerId = null;
 
-    // Admin password:
-    // Prefer host-injected secret; fall back to a visible default (not secure).
+    // Prefer host-injected secret; fall back to visible default (not secure).
     const ADMIN_PASSWORD = adminPasswordFromEnv || "Shitshack24";
-
     const publicCollectionPath = `artifacts/${appId}/public/data/time_clocks`;
 
     const locations = {
@@ -221,28 +211,61 @@
     };
     populateLocationSelect();
 
-    // ---- App init ----
+    // ——— Helpers ———
+    const showSpinner = () => loadingSpinner.classList.remove('hidden');
+    const hideSpinner = () => loadingSpinner.classList.add('hidden');
+    const updateLoadingStatus = (message) => { loadingText.textContent = message; };
+
+    const displayMessage = (message, classes) => {
+      statusDiv.innerHTML = `<span class="${classes}">${message}</span>`;
+      statusDiv.className = `text-lg font-semibold p-4 rounded-xl mb-6 shadow-inner border-2 border-gray-700`;
+    };
+
+    const showInlineError = (prefix, err) => {
+      const code = err?.code || err?.name || 'unknown';
+      const msg  = err?.message || String(err);
+      inlineError.innerHTML = `<b>${prefix}:</b> <code>${code}</code><br/><span class="opacity-80">${msg}</span>`;
+      inlineError.classList.remove('hidden');
+      console.error(prefix, err);
+    };
+
+    const setButtonState = () => {
+      const enabled = isAuthReady && !!userId;
+      clockInBtn.disabled = !enabled;
+      clockOutBtn.disabled = !enabled;
+    };
+
+    const showConfigModal = () => configModal.classList.remove('hidden');
+
+    const saveConfig = () => {
+      try {
+        const config = JSON.parse(configInput.value || "{}");
+        if (!config || Object.keys(config).length === 0) throw new Error("Empty config");
+        localStorage.setItem('firebaseConfig', JSON.stringify(config));
+        configStatus.textContent = "Configuration saved! Reloading...";
+        configStatus.classList.remove('text-red-400');
+        configStatus.classList.add('text-green-400');
+        setTimeout(() => window.location.reload(), 900);
+      } catch (e) {
+        configStatus.textContent = "Invalid JSON. Please check the format.";
+        configStatus.classList.remove('text-green-400');
+        configStatus.classList.add('text-red-400');
+        console.error("Invalid config JSON:", e);
+      }
+    };
+
+    // ——— Init ———
     const initFirebase = async () => {
       showSpinner();
       updateLoadingStatus("Initializing app...");
-
       let firebaseConfig = {};
 
-      // Priority: injected env
       if (Object.keys(firebaseConfigFromEnv).length > 0) {
         firebaseConfig = firebaseConfigFromEnv;
-        console.log("Using Firebase config from environment.");
       } else {
-        // Fallback to local storage
-        const storedConfig = localStorage.getItem('firebaseConfig');
-        if (storedConfig) {
-          try {
-            firebaseConfig = JSON.parse(storedConfig);
-            console.log("Using Firebase config from localStorage.");
-          } catch (e) {
-            console.error("Invalid Firebase config in localStorage:", e);
-            localStorage.removeItem('firebaseConfig');
-          }
+        const stored = localStorage.getItem('firebaseConfig');
+        if (stored) {
+          try { firebaseConfig = JSON.parse(stored); } catch { localStorage.removeItem('firebaseConfig'); }
         }
       }
 
@@ -257,8 +280,6 @@
         const app = initializeApp(firebaseConfig);
         auth = getAuth(app);
         db = getFirestore(app);
-        console.log("Firebase initialized.");
-
         appContainer.classList.remove('hidden');
         configModal.classList.add('hidden');
 
@@ -267,11 +288,8 @@
           if (user) {
             userId = user.uid;
             userIdDisplay.textContent = userId;
-            console.log("User authenticated:", userId);
-            updateLoadingStatus("Loading your data...");
             setupRealtimeListeners();
           } else {
-            console.log("No user is signed in.");
             userId = null;
             userIdDisplay.textContent = 'Not authenticated';
             displayMessage("Please sign in.", "bg-yellow-200 text-yellow-800");
@@ -284,32 +302,8 @@
 
         await authenticateUser();
       } catch (error) {
-        console.error("Error initializing Firebase:", error);
-        displayMessage("Error initializing app. Check console for details.", "bg-red-200 text-red-800");
+        showInlineError("Firebase initialization failed", error);
         hideSpinner();
-      }
-    };
-
-    const showConfigModal = () => {
-      configModal.classList.remove('hidden');
-    };
-
-    const saveConfig = () => {
-      try {
-        const config = JSON.parse(configInput.value || "{}");
-        if (!config || Object.keys(config).length === 0) {
-          throw new Error("Empty config");
-        }
-        localStorage.setItem('firebaseConfig', JSON.stringify(config));
-        configStatus.textContent = "Configuration saved! Reloading...";
-        configStatus.classList.remove('text-red-400');
-        configStatus.classList.add('text-green-400');
-        setTimeout(() => window.location.reload(), 1200);
-      } catch (e) {
-        configStatus.textContent = "Invalid JSON. Please check the format.";
-        configStatus.classList.remove('text-green-400');
-        configStatus.classList.add('text-red-400');
-        console.error("Invalid config JSON:", e);
       }
     };
 
@@ -317,70 +311,50 @@
       try {
         if (initialAuthToken) {
           await signInWithCustomToken(auth, initialAuthToken);
-          console.log("Signed in with custom token.");
         } else {
-          await signInAnonymously(auth);
-          console.log("Signed in anonymously.");
+          await signInAnonymously(auth); // Ensure Anonymous is enabled in Firebase Console
         }
       } catch (error) {
-        console.error("Authentication error:", error);
-        displayMessage("Authentication failed. Check console for details.", "bg-red-200 text-red-800");
+        showInlineError("Authentication failed", error);
       }
-    };
-
-    const setButtonState = () => {
-      const enabled = isAuthReady && !!userId;
-      clockInBtn.disabled = !enabled;
-      clockOutBtn.disabled = !enabled;
     };
 
     const setupRealtimeListeners = () => {
-      if (!userId) {
-        console.error("Cannot set up listeners: userId is not available.");
-        return;
-      }
+      if (!userId) return;
 
-      // Listen to current user's events
-      const userHistoryCollectionRef = collection(db, publicCollectionPath);
       const userHistoryQuery = query(
-        userHistoryCollectionRef,
+        collection(db, publicCollectionPath),
         where("userId", "==", userId)
       );
 
       if (unsubscribeUserHistory) unsubscribeUserHistory();
-      unsubscribeUserHistory = onSnapshot(userHistoryQuery, (querySnapshot) => {
-        try {
+      unsubscribeUserHistory = onSnapshot(
+        userHistoryQuery,
+        (qs) => {
           const history = [];
-          querySnapshot.forEach((docSnap) => {
-            history.push({ id: docSnap.id, ...docSnap.data() });
-          });
+          qs.forEach((docSnap) => history.push({ id: docSnap.id, ...docSnap.data() }));
           history.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
           renderHistory(history);
-        } catch (error) {
-          console.error("Error fetching/rendering history:", error);
-          displayMessage("Error loading history. Check console.", "bg-red-200 text-red-800");
-        }
-      });
+        },
+        (error) => showInlineError("Realtime (user history) failed", error)
+      );
 
-      // Listen to ALL events for admin
       if (unsubscribeAdminView) unsubscribeAdminView();
-      unsubscribeAdminView = onSnapshot(collection(db, publicCollectionPath), (querySnapshot) => {
-        try {
+      unsubscribeAdminView = onSnapshot(
+        collection(db, publicCollectionPath),
+        (qs) => {
           allEvents = [];
-          querySnapshot.forEach((docSnap) => {
-            allEvents.push({ id: docSnap.id, ...docSnap.data() });
-          });
+          qs.forEach((docSnap) => allEvents.push({ id: docSnap.id, ...docSnap.data() }));
           renderAdminView(allEvents);
-        } catch (error) {
-          console.error("Error fetching admin data:", error);
-        }
-      });
+        },
+        (error) => showInlineError("Realtime (admin view) failed", error)
+      );
     };
 
     const checkUserStatus = async () => {
       const firstName = firstNameInput.value.trim();
-      const lastName = lastNameInput.value.trim();
-      const location = parseInt(locationSelect.value, 10);
+      const lastName  = lastNameInput.value.trim();
+      const location  = parseInt(locationSelect.value, 10);
 
       if (!firstName || !lastName || isNaN(location)) {
         statusDiv.innerHTML = '<span class="text-gray-400">Enter your name and stand to check status...</span>';
@@ -388,35 +362,28 @@
         return null;
       }
 
-      const clockRef = collection(db, publicCollectionPath);
-      const userQuery = query(
-        clockRef,
-        where("firstName", "==", firstName),
-        where("lastName", "==", lastName),
-        where("location", "==", location)
-      );
-
       try {
-        const querySnapshot = await getDocs(userQuery);
+        const qs = await getDocs(query(
+          collection(db, publicCollectionPath),
+          where("firstName", "==", firstName),
+          where("lastName", "==", lastName),
+          where("location", "==", location)
+        ));
         const events = [];
-        querySnapshot.forEach(d => events.push(d.data()));
+        qs.forEach(d => events.push(d.data()));
         events.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis());
 
         const lastAction = events.length > 0 ? events[0].action : 'out';
-
         if (lastAction === 'in') {
-          statusDiv.innerHTML = `<span class="text-green-400 glow-green">${firstName} is currently <strong class="font-bold">Clocked In</strong></span>`;
-          statusDiv.classList.add('border-neon-green');
-          statusDiv.classList.remove('border-neon-red');
+          statusDiv.innerHTML = `<span class="text-green-400 glow-green">${firstName} is currently <strong>Clocked In</strong></span>`;
+          statusDiv.classList.add('border-neon-green'); statusDiv.classList.remove('border-neon-red');
         } else {
-          statusDiv.innerHTML = `<span class="text-red-400 glow-red">${firstName} is currently <strong class="font-bold">Clocked Out</strong></span>`;
-          statusDiv.classList.add('border-neon-red');
-          statusDiv.classList.remove('border-neon-green');
+          statusDiv.innerHTML = `<span class="text-neon-red glow-red">${firstName} is currently <strong>Clocked Out</strong></span>`;
+          statusDiv.classList.add('border-neon-red'); statusDiv.classList.remove('border-neon-green');
         }
         return lastAction;
       } catch (error) {
-        console.error("Error checking user status:", error);
-        displayMessage("Error checking status. See console.", "bg-red-200 text-red-800");
+        showInlineError("Error checking user status (rules/index?)", error);
         return null;
       }
     };
@@ -427,12 +394,10 @@
         historyList.innerHTML = '<div class="text-gray-500 text-sm">No clock events recorded yet.</div>';
         return;
       }
-
       history.forEach(event => {
         const date = new Date(event.timestamp.toMillis());
-        const formattedTime = date.toLocaleString('en-US', {
-          weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
-          hour: 'numeric', minute: 'numeric', hour12: true
+        const formatted = date.toLocaleString('en-US', {
+          weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true
         });
         const color = event.action === 'in' ? 'bg-green-800' : 'bg-red-800';
         const actionText = event.action === 'in' ? 'Clocked In' : 'Clocked Out';
@@ -445,7 +410,7 @@
             <span class="text-gray-200 font-medium">${actionText}</span>
             <span class="text-gray-400 text-sm block sm:inline sm:ml-4">by ${event.firstName} ${event.lastName} at ${locationName}</span>
           </div>
-          <span class="text-gray-400 text-sm mt-2 sm:mt-0">${formattedTime}</span>
+          <span class="text-gray-300 text-sm mt-2 sm:mt-0">${formatted}</span>
         `;
         historyList.appendChild(item);
       });
@@ -455,50 +420,40 @@
       const seconds = Math.floor(ms / 1000);
       const minutes = Math.floor(seconds / 60);
       const hours = Math.floor(minutes / 60);
-      const remainingMinutes = minutes % 60;
-      const remainingSeconds = seconds % 60;
+      const rm = minutes % 60, rs = seconds % 60;
       const parts = [];
-      if (hours > 0) parts.push(`${hours}h`);
-      if (remainingMinutes > 0) parts.push(`${remainingMinutes}m`);
-      if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
-      return parts.length > 0 ? parts.join(' ') : '0m 0s';
+      if (hours) parts.push(`${hours}h`);
+      if (rm) parts.push(`${rm}m`);
+      if (rs) parts.push(`${rs}s`);
+      return parts.length ? parts.join(' ') : '0m 0s';
     };
 
     const renderAdminView = (events) => {
       adminTablesContainer.innerHTML = '';
-
-      // Group events by user and sort
-      const eventsByUser = {};
-      events.forEach(event => {
-        const key = `${event.userId}_${event.firstName}_${event.lastName}`;
-        if (!eventsByUser[key]) {
-          eventsByUser[key] = {
-            events: [],
-            firstName: event.firstName,
-            lastName: event.lastName,
-            userId: event.userId
-          };
-        }
-        eventsByUser[key].events.push(event);
+      const byUser = {};
+      events.forEach(e => {
+        const key = `${e.userId}_${e.firstName}_${e.lastName}`;
+        byUser[key] ??= { firstName: e.firstName, lastName: e.lastName, userId: e.userId, events: [] };
+        byUser[key].events.push(e);
       });
 
-      const sortedUserKeys = Object.keys(eventsByUser).sort((a, b) => {
-        const lastEventA = eventsByUser[a].events.sort((x, y) => y.timestamp.toMillis() - x.timestamp.toMillis())[0];
-        const lastEventB = eventsByUser[b].events.sort((x, y) => y.timestamp.toMillis() - x.timestamp.toMillis())[0];
-        return lastEventB.timestamp.toMillis() - lastEventA.timestamp.toMillis();
+      const sortedKeys = Object.keys(byUser).sort((a,b) => {
+        const lastA = byUser[a].events.sort((x,y)=>y.timestamp.toMillis()-x.timestamp.toMillis())[0];
+        const lastB = byUser[b].events.sort((x,y)=>y.timestamp.toMillis()-x.timestamp.toMillis())[0];
+        return lastB.timestamp.toMillis() - lastA.timestamp.toMillis();
       });
 
-      sortedUserKeys.forEach(userKey => {
-        const user = eventsByUser[userKey];
-        user.events.sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis());
+      sortedKeys.forEach(k => {
+        const u = byUser[k];
+        u.events.sort((a,b)=>a.timestamp.toMillis()-b.timestamp.toMillis());
 
-        const userTableDiv = document.createElement('div');
-        userTableDiv.className = "bg-gray-700 p-6 rounded-lg shadow-xl border-2 border-gray-600";
+        const box = document.createElement('div');
+        box.className = "bg-gray-700 p-6 rounded-lg shadow-xl border-2 border-gray-600";
 
-        const tableTitle = document.createElement('h3');
-        tableTitle.className = "text-xl font-bold text-cyan-400 mb-4 text-left";
-        tableTitle.textContent = `${user.firstName} ${user.lastName}`;
-        userTableDiv.appendChild(tableTitle);
+        const title = document.createElement('h3');
+        title.className = "text-xl font-bold text-cyan-400 mb-4 text-left";
+        title.textContent = `${u.firstName} ${u.lastName}`;
+        box.appendChild(title);
 
         const table = document.createElement('table');
         table.className = "min-w-full text-white";
@@ -517,108 +472,81 @@
         const tbody = table.querySelector('tbody');
 
         const dailyTotals = {};
-        user.events.forEach(event => {
-          const date = event.timestamp.toDate();
+        u.events.forEach(ev => {
+          const date = ev.timestamp.toDate();
           const dateStr = date.toISOString().split('T')[0];
-          const location = event.location;
-          if (!dailyTotals[dateStr]) {
-            dailyTotals[dateStr] = { locations: {}, dailyTotalMs: 0 };
-          }
-          if (!dailyTotals[dateStr].locations[location]) {
-            dailyTotals[dateStr].locations[location] = { in: null, out: null, pairs: [] };
+          const loc = ev.location;
+          dailyTotals[dateStr] ??= { locations: {} };
+          dailyTotals[dateStr].locations[loc] ??= { in: null, out: null, pairs: [] };
+
+          if (ev.action === 'in' && !dailyTotals[dateStr].locations[loc].in) {
+            dailyTotals[dateStr].locations[loc].in = ev;
+          } else if (ev.action === 'out' && dailyTotals[dateStr].locations[loc].in) {
+            const L = dailyTotals[dateStr].locations[loc];
+            L.out = ev; L.pairs.push([L.in, L.out]); L.in = null; L.out = null;
+          } else if (ev.action === 'out' && !dailyTotals[dateStr].locations[loc].in) {
+            dailyTotals[dateStr].locations[loc].pairs.push([null, ev]);
           }
 
-          if (event.action === 'in' && !dailyTotals[dateStr].locations[location].in) {
-            dailyTotals[dateStr].locations[location].in = event;
-          } else if (event.action === 'out' && dailyTotals[dateStr].locations[location].in) {
-            dailyTotals[dateStr].locations[location].out = event;
-            dailyTotals[dateStr].locations[location].pairs.push([
-              dailyTotals[dateStr].locations[location].in,
-              dailyTotals[dateStr].locations[location].out
-            ]);
-            dailyTotals[dateStr].locations[location].in = null;
-            dailyTotals[dateStr].locations[location].out = null;
-          } else if (event.action === 'out' && !dailyTotals[dateStr].locations[location].in) {
-            dailyTotals[dateStr].locations[location].pairs.push([null, event]);
-          }
-
-          const formattedTime = date.toLocaleString('en-US', {
+          const formatted = date.toLocaleString('en-US', {
             weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true
           });
-          const locationName = locations[event.location] || `Unknown Location ${event.location}`;
+          const locationName = locations[ev.location] || `Unknown Location ${ev.location}`;
 
           const row = document.createElement('tr');
-          row.className = 'border-b border-gray-600 hover:bg-gray-600 transition-colors duration-200';
+          row.className = 'border-b border-gray-600 hover:bg-gray-600 transition-colors';
           row.innerHTML = `
             <td class="py-3 px-4 text-sm font-medium text-left">${dateStr}</td>
-            <td class="py-3 px-4 text-sm text-left">${event.action === 'in' ? 'Clock In' : 'Clock Out'}</td>
+            <td class="py-3 px-4 text-sm text-left">${ev.action === 'in' ? 'Clock In' : 'Clock Out'}</td>
             <td class="py-3 px-4 text-sm text-left">${locationName}</td>
-            <td class="py-3 px-4 text-sm text-left">${formattedTime}</td>
+            <td class="py-3 px-4 text-sm text-left">${formatted}</td>
             <td class="py-3 px-4 text-sm text-left">
-              <button class="edit-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-full" data-id="${event.id}">Edit</button>
+              <button class="edit-btn bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-3 rounded-full" data-id="${ev.id}">Edit</button>
             </td>
           `;
           tbody.appendChild(row);
         });
 
-        let monthlyTotalMs = 0;
-        let dailyRows = '';
-
+        let monthlyTotalMs = 0, extraRows = '';
         Object.keys(dailyTotals).sort().forEach(dateStr => {
-          const dayData = dailyTotals[dateStr];
-          let dailyTotalMs = 0;
-
-          Object.keys(dayData.locations).forEach(locationKey => {
-            const locationData = dayData.locations[locationKey];
-            let locationTotalMs = 0;
-
-            locationData.pairs.forEach(pair => {
-              const inEvent = pair[0];
-              const outEvent = pair[1];
-              if (inEvent && outEvent) {
-                locationTotalMs += outEvent.timestamp.toMillis() - inEvent.timestamp.toMillis();
-              }
-            });
-
-            dailyTotalMs += locationTotalMs;
-
-            const locationName = locations[locationKey] || `Unknown Location ${locationKey}`;
-            const locationTotalFormatted = formatDuration(locationTotalMs);
-            dailyRows += `
+          let dayTotal = 0;
+          Object.keys(dailyTotals[dateStr].locations).forEach(locKey => {
+            const L = dailyTotals[dateStr].locations[locKey];
+            let locMs = 0;
+            L.pairs.forEach(([i,o]) => { if (i && o) locMs += o.timestamp.toMillis() - i.timestamp.toMillis(); });
+            dayTotal += locMs;
+            extraRows += `
               <tr class="bg-gray-800 text-gray-400">
-                <td class="py-2 px-4 text-xs text-left" colspan="3">at ${locationName}:</td>
-                <td class="py-2 px-4 text-xs text-left">${locationTotalFormatted}</td>
+                <td class="py-2 px-4 text-xs text-left" colspan="3">at ${locations[locKey] || ('Unknown Location '+locKey)}:</td>
+                <td class="py-2 px-4 text-xs text-left">${formatDuration(locMs)}</td>
                 <td></td>
               </tr>
             `;
           });
-
-          const dailyTotalFormatted = formatDuration(dailyTotalMs);
-          dailyRows += `
+          monthlyTotalMs += dayTotal;
+          extraRows += `
             <tr class="bg-gray-800 font-bold">
               <td class="py-3 px-4 text-sm text-left" colspan="3">Daily Total for ${dateStr}:</td>
-              <td class="py-3 px-4 text-sm text-left">${dailyTotalFormatted}</td>
+              <td class="py-3 px-4 text-sm text-left">${formatDuration(dayTotal)}</td>
               <td></td>
             </tr>
           `;
-          monthlyTotalMs += dailyTotalMs;
         });
 
-        tbody.insertAdjacentHTML('beforeend', dailyRows);
+        tbody.insertAdjacentHTML('beforeend', extraRows);
 
-        const monthlyTotalFormatted = formatDuration(monthlyTotalMs);
         const tfoot = document.createElement('tfoot');
         tfoot.innerHTML = `
           <tr class="bg-cyan-900 font-bold text-cyan-200">
             <td class="py-3 px-4 text-lg text-left" colspan="3">Monthly Total:</td>
-            <td class="py-3 px-4 text-lg text-left">${monthlyTotalFormatted}</td>
+            <td class="py-3 px-4 text-lg text-left">${formatDuration(monthlyTotalMs)}</td>
             <td></td>
           </tr>
         `;
         table.appendChild(tfoot);
 
-        userTableDiv.appendChild(table);
-        adminTablesContainer.appendChild(userTableDiv);
+        box.appendChild(table);
+        adminTablesContainer.appendChild(box);
       });
     };
 
@@ -627,74 +555,52 @@
         displayMessage("Authentication not ready. Please wait a moment.", "bg-red-800 text-red-200");
         return;
       }
-
       const firstName = firstNameInput.value.trim();
-      const lastName = lastNameInput.value.trim();
-      const location = parseInt(locationSelect.value, 10);
+      const lastName  = lastNameInput.value.trim();
+      const location  = parseInt(locationSelect.value, 10);
 
-      if (!firstName || !lastName) {
-        displayMessage("Please enter your first and last name.", "bg-red-800 text-red-200");
-        return;
-      }
-      if (isNaN(location) || !locations[location]) {
-        displayMessage("Please select a valid location.", "bg-red-800 text-red-200");
-        return;
-      }
+      if (!firstName || !lastName) { displayMessage("Please enter your first and last name.", "bg-red-800 text-red-200"); return; }
+      if (isNaN(location) || !locations[location]) { displayMessage("Please select a valid location.", "bg-red-800 text-red-200"); return; }
 
       showSpinner();
       updateLoadingStatus("Logging your clock event...");
 
       try {
-        const lastAction = await checkUserStatus();
+        const lastAction  = await checkUserStatus();
         const finalAction = (lastAction === 'in') ? 'out' : 'in';
-
-        const clockRef = collection(db, publicCollectionPath);
-        await addDoc(clockRef, {
-          userId,
-          firstName,
-          lastName,
-          location,
+        await addDoc(collection(db, publicCollectionPath), {
+          userId, firstName, lastName, location,
           timestamp: new Date(),
           action: finalAction
         });
-        console.log(`Successfully recorded ${finalAction} event.`);
       } catch (e) {
-        console.error("Error adding document: ", e);
-        displayMessage(`Error saving event. Check console.`, "bg-red-800 text-red-200");
-      } finally {
-        hideSpinner();
-      }
+        showInlineError("Error saving event", e);
+      } finally { hideSpinner(); }
     };
 
     const editEntry = (docId) => {
-      const entryToEdit = allEvents.find(event => event.id === docId);
-      if (!entryToEdit) {
-        console.error("Entry not found for editing.");
-        return;
-      }
+      const entry = allEvents.find(e => e.id === docId);
+      if (!entry) return;
       editDocIdInput.value = docId;
-      editFirstNameInput.value = entryToEdit.firstName || '';
-      editLastNameInput.value = entryToEdit.lastName || '';
-      // Cast to string for select
-      editLocationSelect.value = String(entryToEdit.location);
-      editActionInput.value = entryToEdit.action || 'in';
-
-      const date = entryToEdit.timestamp.toDate();
-      const localDateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().slice(0, 16);
-      editTimestampInput.value = localDateString;
-
+      editFirstNameInput.value = entry.firstName || '';
+      editLastNameInput.value  = entry.lastName || '';
+      editLocationSelect.value = String(entry.location); // explicit cast for <select>
+      editActionInput.value    = entry.action || 'in';
+      const d = entry.timestamp.toDate();
+      const local = new Date(d.getTime() - (d.getTimezoneOffset()*60000)).toISOString().slice(0,16);
+      editTimestampInput.value = local;
       editModal.classList.remove('hidden');
     };
 
     const saveEditedEntry = async () => {
       const docId = editDocIdInput.value;
-      const newFirstName = editFirstNameInput.value.trim();
-      const newLastName = editLastNameInput.value.trim();
-      const newLocation = parseInt(editLocationSelect.value, 10);
-      const newAction = editActionInput.value;
-      const newTimestamp = new Date(editTimestampInput.value);
+      const newFirst = editFirstNameInput.value.trim();
+      const newLast  = editLastNameInput.value.trim();
+      const newLoc   = parseInt(editLocationSelect.value, 10);
+      const newAct   = editActionInput.value;
+      const newTime  = new Date(editTimestampInput.value);
 
-      if (!newFirstName || !newLastName || isNaN(newLocation) || !locations[newLocation] || isNaN(newTimestamp.getTime())) {
+      if (!newFirst || !newLast || isNaN(newLoc) || !locations[newLoc] || isNaN(newTime.getTime())) {
         displayMessage("Please complete all fields correctly.", "bg-red-800 text-red-200");
         return;
       }
@@ -702,38 +608,16 @@
       try {
         showSpinner();
         updateLoadingStatus("Saving changes...");
-        const entryRef = doc(db, publicCollectionPath, docId);
-        await updateDoc(entryRef, {
-          firstName: newFirstName,
-          lastName: newLastName,
-          location: newLocation,
-          action: newAction,
-          timestamp: newTimestamp
+        await updateDoc(doc(db, publicCollectionPath, docId), {
+          firstName: newFirst, lastName: newLast, location: newLoc, action: newAct, timestamp: newTime
         });
-        console.log("Document successfully updated!");
         editModal.classList.add('hidden');
       } catch (error) {
-        console.error("Error updating document:", error);
-        displayMessage("Error saving changes. See console.", "bg-red-800 text-red-200");
-      } finally {
-        hideSpinner();
-      }
+        showInlineError("Error updating document", error);
+      } finally { hideSpinner(); }
     };
 
-    const cancelEdit = () => {
-      editModal.classList.add('hidden');
-    };
-
-    // ---- UI helpers ----
-    const displayMessage = (message, colorClass) => {
-      statusDiv.innerHTML = `<span class="${colorClass}">${message}</span>`;
-      statusDiv.className = `text-lg font-semibold p-4 rounded-xl mb-6 shadow-inner ${colorClass}`;
-      statusDiv.classList.add('border-2', 'border-gray-700');
-    };
-
-    const showSpinner = () => loadingSpinner.classList.remove('hidden');
-    const hideSpinner = () => loadingSpinner.classList.add('hidden');
-    const updateLoadingStatus = (message) => { loadingText.textContent = message; };
+    const cancelEdit = () => editModal.classList.add('hidden');
 
     const handleAdminAccess = () => {
       if (adminPasswordInput.value === ADMIN_PASSWORD) {
@@ -748,30 +632,24 @@
 
     const debounceCheckStatus = () => {
       if (timerId) clearTimeout(timerId);
-      timerId = setTimeout(() => { checkUserStatus(); }, 500);
+      timerId = setTimeout(checkUserStatus, 500);
     };
 
-    // ---- Event Listeners ----
+    // Events
     clockInBtn.addEventListener('click', handleClockAction);
     clockOutBtn.addEventListener('click', handleClockAction);
     accessAdminViewBtn.addEventListener('click', handleAdminAccess);
     saveConfigBtn.addEventListener('click', saveConfig);
-
-    adminTablesContainer.addEventListener('click', (event) => {
-      if (event.target.classList.contains('edit-btn')) {
-        const docId = event.target.getAttribute('data-id');
-        editEntry(docId);
-      }
+    adminTablesContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('edit-btn')) editEntry(e.target.getAttribute('data-id'));
     });
-
     saveEditBtn.addEventListener('click', saveEditedEntry);
     cancelEditBtn.addEventListener('click', cancelEdit);
-
     firstNameInput.addEventListener('input', debounceCheckStatus);
     lastNameInput.addEventListener('input', debounceCheckStatus);
     locationSelect.addEventListener('change', debounceCheckStatus);
 
-    // Start the application
+    // Start
     initFirebase();
   </script>
 </body>
